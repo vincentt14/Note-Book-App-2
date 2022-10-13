@@ -34,6 +34,13 @@ const App = () => {
       } else {
         setTheme(localStorage.getItem("theme"));
       }
+
+      if (localStorage.getItem("locale") === undefined) {
+        localStorage.setItem("locale", "id");
+        setLocale("id");
+      } else {
+        setLocale(localStorage.getItem("locale"));
+      }
     }
     initialLoad();
   }, []);
@@ -51,9 +58,9 @@ const App = () => {
   }
 
   const toggleLocale = () => {
-    setLocale((prevLocale) => {
-      return prevLocale === "id" ? "en" : "id";
-    });
+    const targetLocale = locale === "id" ? "en" : "id";
+    setLocale(targetLocale);
+    localStorage.setItem("locale", targetLocale);
   };
 
   const toggleTheme = () => {

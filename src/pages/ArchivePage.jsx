@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getArchivedNotes } from "../utils/api";
 import LocaleContext from "../contexts/LocaleContext";
 import SearchBar from "../components/SearchBar";
 import NoteList from "../components/NoteList";
+import { PropTypes } from "prop-types";
 
 const ArchivePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -19,6 +20,10 @@ const ArchivePage = () => {
       !error && setNotes(data);
     }
     fetchNotesDataArchived();
+
+    return() => {
+      setNotes([])
+    }
   }, []);
 
   function onKeywordChangedHandler(keyword) {
@@ -37,10 +42,17 @@ const ArchivePage = () => {
           <h2>{locale === "id" ? "Catatan Arsip" : "Archived Note"}</h2>
           <SearchBar keyword={keyword} keywordChange={onKeywordChangedHandler} />
         </section>
-        <NoteList notes={filteredNotes} />
+        <Suspense fallback={<div>Loading</div>}>
+          <NoteList notes={filteredNotes} />
+        </Suspense>
       </section>
     </>
   );
+};
+
+ArchivePage.propTypes = {
+  defaultKeyword: PropTypes.string,
+  keywordChange: PropTypes.func,
 };
 
 export default ArchivePage;

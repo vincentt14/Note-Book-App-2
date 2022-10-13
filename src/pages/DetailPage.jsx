@@ -5,6 +5,7 @@ import UnarchiveButton from "../components/UnarchivedButton";
 import { archiveNote, deleteNote, getNote, unarchiveNote } from "../utils/api";
 import DeleteButton from "../components/DeleteButton";
 import NoteDetail from "../components/NoteDetail";
+import { PropTypes } from 'prop-types';
 
 const DetailPage = () => {
   const { id } = useParams();
@@ -52,5 +53,9 @@ const DetailPage = () => {
     );
   }
 };
+
+DetailPage.propTypes = {
+  id: PropTypes.string,
+}
 
 export default DetailPage;

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import LocaleContext from "../contexts/LocaleContext";
 import { register } from "../utils/api";
 import RegisterInput from "../components/RegisterInput";
+import PropTypes from "prop-types";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -25,6 +26,10 @@ const RegisterPage = () => {
       </p>
     </section>
   );
+};
+
+RegisterPage.propTypes = {
+  register: PropTypes.func,
 };
 
 export default RegisterPage;

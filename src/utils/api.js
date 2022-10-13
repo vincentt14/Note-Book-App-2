@@ -79,6 +79,7 @@ async function addNote({ title, body }) {
   const responseJson = await response.json();
 
   if (responseJson.status !== "success") {
+    alert(responseJson.message);
     return { error: true, data: null };
   }
 

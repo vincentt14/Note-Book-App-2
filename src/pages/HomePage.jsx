@@ -1,10 +1,11 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { useSearchParams } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import LocaleContext from "../contexts/LocaleContext";
 import { getActiveNotes } from "../utils/api";
 import NoteList from "../components/NoteList";
 import AddButton from "../components/AddButton";
+import { PropTypes } from 'prop-types';
 
 const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,6 +21,10 @@ const HomePage = () => {
       !error && setNotes(data);
     }
     fetchNotesData();
+
+    return() => {
+      setNotes([])
+    }
   }, []);
 
   function onKeywordChangedHandler(keyword) {
@@ -38,13 +43,20 @@ const HomePage = () => {
           <h2>{locale === "id" ? "Catatan Aktif" : "Active Note"}</h2>
           <SearchBar keyword={keyword} keywordChange={onKeywordChangedHandler} />
         </section>
-        <NoteList notes={filteredNotes} />
+        <Suspense fallback={<div>Loading</div>}>
+          <NoteList notes={filteredNotes} />
+        </Suspense>
       </section>
       <section className="homepage__action">
         <AddButton />
       </section>
     </>
   );
+};
+
+HomePage.propTypes = {
+  defaultKeyword: PropTypes.string,
+  keywordChange: PropTypes.func,
 };
 
 export default HomePage;
